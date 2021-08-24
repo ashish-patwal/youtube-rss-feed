@@ -1,0 +1,33 @@
+{
+  "name": "youtube-rss-feed",
+  "version": "1.0.0",
+  "description": "An npm package to return the rss feeds for youtube channels.",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashish-patwal/youtube-rss-feed.git"
+  },
+  "keywords": [
+    "youtube",
+    "youtube-rss",
+    "youtube-rss-feed",
+    "rss",
+    "rss-feed"
+  ],
+  "author": "Ashish Patwal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashish-patwal/youtube-rss-feed/issues"
+  },
+  "homepage": "https://github.com/ashish-patwal/youtube-rss-feed#readme",
+  "devDependencies": {
+    "@types/node": "^16.7.1",
+    "lite-server": "^2.6.1"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}
