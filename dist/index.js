@@ -9,19 +9,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const Fetch = require("node-fetch");
-const url = "https://www.youtube.com/user/Niccakun";
-const reg = new RegExp('"rssUrl":"https://www.youtube.com/feeds/videos.xml\\?channel_id=\\w+"', 'g');
-const html = () => __awaiter(void 0, void 0, void 0, function* () {
+const youtubeUrl = ["https://www.youtube.com/c/StudyIQcoachingcenter", "https://www.youtube.com/c/DataStaxDevs", "https://www.youtube.com/c/DefenceSquad", "https://www.youtube.com/user/Niccakun"];
+const reg = new RegExp('"rssUrl":"https://www.youtube.com/feeds/videos.xml\\?channel_id=[A-Za-z0-9_-]*"', 'g');
+const rss = (url) => __awaiter(void 0, void 0, void 0, function* () {
     const responce = yield Fetch(url);
     switch (responce.status) {
         case 200:
             const template = yield responce.text();
             const rss = reg.exec(template);
             if (rss != null) {
-                console.log(rss[0]);
+                const obj = {
+                    channel: url,
+                    rssUrl: rss[0]
+                };
+                console.log(obj);
                 break;
             }
-            console.log('Fuck');
+            console.log("Duck");
             break;
         case 404:
             console.log("Not Found");
@@ -31,4 +35,7 @@ const html = () => __awaiter(void 0, void 0, void 0, function* () {
             break;
     }
 });
-html();
+const result = (urls) => {
+    urls.map(url => rss(url));
+};
+result(youtubeUrl);

@@ -1,8 +1,13 @@
 const Fetch = require("node-fetch");
-const url: string = "https://www.youtube.com/user/Niccakun";
-const reg = new RegExp('"rssUrl":"https://www.youtube.com/feeds/videos.xml\\?channel_id=\\w+"', 'g');
+const youtubeUrl: string[] = [ "https://www.youtube.com/c/StudyIQcoachingcenter", "https://www.youtube.com/c/DataStaxDevs", "https://www.youtube.com/c/DefenceSquad" , "https://www.youtube.com/user/Niccakun"];
+const reg = new RegExp('"rssUrl":"https://www.youtube.com/feeds/videos.xml\\?channel_id=[A-Za-z0-9_-]*"', 'g');
 
-const html: Function = async () => {
+interface rssObject{
+    channel: string,
+    rssUrl: string
+}
+
+const rss: Function = async ( url: string ) => {
 
     const responce = await Fetch(url);
 
@@ -11,10 +16,14 @@ const html: Function = async () => {
             const template: string = await responce.text();
             const rss = reg.exec(template);
             if(rss != null) {
-                console.log(rss[0])
+                const obj: rssObject = {
+                    channel: url,
+                    rssUrl: rss[0]
+                };
+                console.log(obj);
                 break;
             }
-            console.log('Fuck');
+            console.log("Duck");
             break;
         case 404:
             console.log("Not Found");
@@ -26,4 +35,8 @@ const html: Function = async () => {
 
 }
 
-html();
+const result: Function = ( urls: string[]) => {
+   urls.map( url => rss(url));
+}
+
+result(youtubeUrl);
