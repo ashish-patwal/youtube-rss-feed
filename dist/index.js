@@ -8,14 +8,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const Fetch = require("node-fetch");
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const axios_1 = __importDefault(require("axios"));
 const youtubeUrl = ["https://www.youtube.com/c/StudyIQcoachingcenter", "https://www.youtube.com/c/DataStaxDevs", "https://www.youtube.com/c/DefenceSquad", "https://www.youtube.com/user/Niccakun"];
 const reg = new RegExp('"rssUrl":"https://www.youtube.com/feeds/videos.xml\\?channel_id=[A-Za-z0-9_-]*"', 'g');
+const headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36' };
 const rss = (url) => __awaiter(void 0, void 0, void 0, function* () {
-    const responce = yield Fetch(url);
+    const responce = yield axios_1.default.get(url);
     switch (responce.status) {
         case 200:
-            const template = yield responce.text();
+            const template = yield responce.data;
             const rss = reg.exec(template);
             if (rss != null) {
                 const obj = {
@@ -36,6 +41,6 @@ const rss = (url) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 const result = (urls) => {
-    urls.map(url => rss(url));
+    urls.forEach(url => rss(url));
 };
 result(youtubeUrl);
