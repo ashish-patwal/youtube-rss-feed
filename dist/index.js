@@ -27,10 +27,10 @@ const rss = (url) => __awaiter(void 0, void 0, void 0, function* () {
                     channel: url,
                     rssUrl: rss[0]
                 };
-                console.log(obj);
+                return obj;
                 break;
             }
-            console.log("Duck");
+            return "DUCK";
             break;
         case 404:
             console.log("Not Found");
@@ -40,7 +40,11 @@ const rss = (url) => __awaiter(void 0, void 0, void 0, function* () {
             break;
     }
 });
-const result = (urls) => {
-    urls.forEach(url => rss(url));
-};
+const result = (urls) => __awaiter(void 0, void 0, void 0, function* () {
+    const res = [];
+    for (const url of urls) {
+        res.push(yield rss(url));
+    }
+    console.log(res);
+});
 result(youtubeUrl);
