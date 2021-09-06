@@ -12,24 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.youtubeRss = void 0;
 const axios_1 = __importDefault(require("axios"));
-const youtubeUrl = ["https://www.youtube.com/c/StudyIQcoachingcenter", "https://www.youtube.com/c/DataStaxDevs", "https://www.youtube.com/c/DefenceSquad", "https://www.youtube.com/user/Niccakun"];
+const random_useragent_1 = __importDefault(require("random-useragent"));
 const reg = new RegExp('"rssUrl":"https://www.youtube.com/feeds/videos.xml\\?channel_id=[A-Za-z0-9_-]*"', 'g');
-const headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36' };
 const rss = (url) => __awaiter(void 0, void 0, void 0, function* () {
     const responce = yield axios_1.default.get(url, {
-        headers
+        headers: {
+            "user-agent": `${random_useragent_1.default.getRandom()}`
+        }
     });
     switch (responce.status) {
         case 200:
             const template = yield responce.data;
-            const rss = reg.exec(template);
-            if (rss != null) {
-                const obj = {
-                    channel: url,
-                    rssUrl: rss[0]
-                };
-                return obj;
+            const rssString = reg.exec(template);
+            if (rssString) {
+                //       const obj: rssObject = {
+                //          channel: url,
+                //          rssUrl: rssString[0]
+                //        };
+                //        return obj;
+                console.log(rssString[0]);
             }
             return "DUCK";
         case 404:
@@ -40,11 +43,11 @@ const rss = (url) => __awaiter(void 0, void 0, void 0, function* () {
             break;
     }
 });
-const result = (urls) => __awaiter(void 0, void 0, void 0, function* () {
+const youtubeRss = (urls) => __awaiter(void 0, void 0, void 0, function* () {
     const res = [];
     for (const url of urls) {
         res.push(yield rss(url));
     }
     console.log(res);
 });
-result(youtubeUrl);
+exports.youtubeRss = youtubeRss;
