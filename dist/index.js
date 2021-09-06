@@ -17,7 +17,9 @@ const youtubeUrl = ["https://www.youtube.com/c/StudyIQcoachingcenter", "https://
 const reg = new RegExp('"rssUrl":"https://www.youtube.com/feeds/videos.xml\\?channel_id=[A-Za-z0-9_-]*"', 'g');
 const headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36' };
 const rss = (url) => __awaiter(void 0, void 0, void 0, function* () {
-    const responce = yield axios_1.default.get(url);
+    const responce = yield axios_1.default.get(url, {
+        headers
+    });
     switch (responce.status) {
         case 200:
             const template = yield responce.data;
@@ -28,10 +30,8 @@ const rss = (url) => __awaiter(void 0, void 0, void 0, function* () {
                     rssUrl: rss[0]
                 };
                 return obj;
-                break;
             }
             return "DUCK";
-            break;
         case 404:
             console.log("Not Found");
             break;
